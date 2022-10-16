@@ -8,10 +8,6 @@ getgenv().spoof = function(instance, property)
     local _index
     local _newindex
 
-    function spoofer:Destroy()
-        spoofer.enabled = false
-    end
-
     function spoofer:SetFake(new_value, any_type)
         if any_type then
             spoofer.fake = new_value
@@ -20,6 +16,11 @@ getgenv().spoof = function(instance, property)
         else
             spoofer.fake = nil
         end
+    end
+
+    function spoofer:Destroy()
+        instance[property] = spoofer.fake
+        spoofer.enabled = false
     end
 
     _index = hookmetamethod(game, '__index', function(self, index)
