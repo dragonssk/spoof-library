@@ -23,7 +23,7 @@ getgenv().spoof = function(instance, property)
         spoofer.enabled = false
     end
 
-    _index = hookmetamethod(game, '__index', function(self, index)
+    _index = hookmetamethod(instance, '__index', function(self, index)
         if self == instance and index == property and not checkcaller() and spoofer.enabled then
             return spoofer.fake
         end
@@ -31,7 +31,7 @@ getgenv().spoof = function(instance, property)
         return _index(self, index)
     end)
 
-    _newindex = hookmetamethod(game, '__newindex', function(self, index, value)
+    _newindex = hookmetamethod(instance, '__newindex', function(self, index, value)
         if self == instance and index == property and not checkcaller() and spoofer.enabled then
             if typeof(value) == spoofer.fake_type then
                 spoofer.fake = value
